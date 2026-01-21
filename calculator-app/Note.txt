@@ -1,0 +1,64 @@
+# 1. Pastikan di folder blog-app/ (root)
+PS D:\Python\blog-app>
+
+
+*****Jalankan 1x Aja****** kalau udh ada venv gak perlu di jalankan
+# 2. Buat virtual environment
+python -m venv venv
+
+# 3. Aktifkan virtual environment
+.\venv\Scripts\Activate
+
+# 4. Install requirements
+pip install -r requirements.txt
+
+# 5. Masuk ke folder backend
+cd backend
+
+# 6. Jalankan aplikasi
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+http://127.0.0.1:8000/docs
+
+# 1. Register
+$body = '{"username": "user1", "password": "password123"}'
+$registerResponse = Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/auth/register" -Method Post -Body $body -ContentType "application/json"
+Write-Host "Register Response:"
+$registerResponse
+$token = $registerResponse.access_token
+
+#login
+$body = '{"username": "testuser", "password": "test123"}'
+$response = Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/auth/login" -Method Post -Body $body -ContentType "application/json"
+$response
+
+
+# 2. Set headers dengan token
+$headers = @{
+    "Authorization" = "Bearer $token"
+    "Content-Type" = "application/json"
+}
+
+# 3. Create Post
+$postBody = '{"title": "Hello World", "content": "My first blog post!"}'
+$postResponse = Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/posts/" -Method Post -Headers $headers -Body $postBody
+Write-Host "`nCreate Post Response:"
+$postResponse
+
+# 4. Get All Posts
+$allPosts = Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/posts/" -Method Get
+Write-Host "`nAll Posts:"
+$allPosts
+
+# 5. Get My Posts
+$myPosts = Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/posts/my-posts" -Method Get -Headers $headers
+Write-Host "`nMy Posts:"
+$myPosts
+
+
+jalankan web
+cd blog-app
+
+python -m http.server 8080
+
+Buka browser ke: http://localhost:8080/frontend_with_comments.html

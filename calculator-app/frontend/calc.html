@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Calculator</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .calc-wrapper {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .calc-title {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+        font-size: 28px;
+      }
+
+      .basic-calc-widget {
+        background: #f5f5f5;
+        border-radius: 10px;
+        padding: 15px;
+        width: 320px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .calc-screen {
+        background: #1a1a1a;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        text-align: right;
+      }
+
+      .calc-display-screen {
+        width: 100%;
+        background: transparent;
+        border: none;
+        color: #00ff00;
+        font-size: 32px;
+        font-weight: bold;
+        text-align: right;
+        outline: none;
+        font-family: "Courier New", monospace;
+      }
+
+      .calc-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .calc-button {
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .calc-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .calc-button:active {
+        transform: translateY(0);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .calc-button-number {
+        background: white;
+        color: #333;
+        border: 2px solid #ddd;
+      }
+
+      .calc-button-number:hover {
+        background: #f9f9f9;
+        border-color: #999;
+      }
+
+      .calc-button-operator {
+        background: #ff9800;
+        color: white;
+      }
+
+      .calc-button-operator:hover {
+        background: #f57c00;
+      }
+
+      .calc-button-clear {
+        background: #f44336;
+        color: white;
+      }
+
+      .calc-button-clear:hover {
+        background: #da190b;
+      }
+
+      .calc-button-equals {
+        background: #4caf50;
+        color: white;
+        grid-column: span 2;
+      }
+
+      .calc-button-equals:hover {
+        background: #45a049;
+      }
+
+      .calc-button-zero {
+        grid-column: span 2;
+      }
+
+      .calc-result-display {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 15px;
+        border-left: 4px solid #4caf50;
+      }
+
+      .calc-result-display p {
+        margin: 8px 0;
+        color: #333;
+      }
+
+      .calc-result-display strong {
+        color: #4caf50;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calc-wrapper">
+      <h1 class="calc-title">🧮 Calculator</h1>
+
+      <div class="basic-calc-widget">
+        <!-- Display Screen -->
+        <div class="calc-screen">
+          <input
+            type="text"
+            id="basicDisplay"
+            class="calc-display-screen"
+            value="0"
+            readonly
+          />
+        </div>
+
+        <!-- Button Grid -->
+        <div class="calc-grid">
+          <!-- Row 1 -->
+          <button class="calc-button calc-button-clear" data-action="clear">
+            C
+          </button>
+          <button class="calc-button calc-button-clear" data-action="delete">
+            ⌫
+          </button>
+          <button class="calc-button calc-button-operator" data-operator="/">
+            /
+          </button>
+          <button class="calc-button calc-button-operator" data-operator="*">
+            ×
+          </button>
+
+          <!-- Row 2 -->
+          <button class="calc-button calc-button-number" data-number="7">
+            7
+          </button>
+          <button class="calc-button calc-button-number" data-number="8">
+            8
+          </button>
+          <button class="calc-button calc-button-number" data-number="9">
+            9
+          </button>
+          <button class="calc-button calc-button-operator" data-operator="-">
+            −
+          </button>
+
+          <!-- Row 3 -->
+          <button class="calc-button calc-button-number" data-number="4">
+            4
+          </button>
+          <button class="calc-button calc-button-number" data-number="5">
+            5
+          </button>
+          <button class="calc-button calc-button-number" data-number="6">
+            6
+          </button>
+          <button class="calc-button calc-button-operator" data-operator="+">
+            +
+          </button>
+
+          <!-- Row 4 -->
+          <button class="calc-button calc-button-number" data-number="1">
+            1
+          </button>
+          <button class="calc-button calc-button-number" data-number="2">
+            2
+          </button>
+          <button class="calc-button calc-button-number" data-number="3">
+            3
+          </button>
+          <button class="calc-button calc-button-operator" data-operator="%">
+            %
+          </button>
+
+          <!-- Row 5 -->
+          <button
+            class="calc-button calc-button-number calc-button-zero"
+            data-number="0"
+          >
+            0
+          </button>
+          <button class="calc-button calc-button-number" data-number=".">
+            .
+          </button>
+          <button class="calc-button calc-button-equals" data-action="equals">
+            =
+          </button>
+        </div>
+      </div>
+
+      <!-- Result Display -->
+      <div
+        class="calc-result-display"
+        id="basicCalcResult"
+        style="display: none"
+      >
+        <p>Expression: <span id="basicCalcExpr"></span></p>
+        <p>Result: <strong id="basicCalcResultVal"></strong></p>
+      </div>
+    </div>
+
+    <script>
+      class BasicCalculator {
+        constructor() {
+          this.display = document.getElementById("basicDisplay");
+          this.resultBox = document.getElementById("basicCalcResult");
+          this.exprSpan = document.getElementById("basicCalcExpr");
+          this.resultSpan = document.getElementById("basicCalcResultVal");
+
+          this.currentInput = "0";
+          this.operator = null;
+          this.previousValue = null;
+          this.shouldResetDisplay = false;
+
+          this.init();
+        }
+
+        init() {
+          // Number buttons
+          document.querySelectorAll("[data-number]").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              e.preventDefault();
+              this.onNumberClick(e.target.dataset.number);
+            });
+          });
+
+          // Operator buttons
+          document.querySelectorAll("[data-operator]").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              e.preventDefault();
+              this.onOperatorClick(e.target.dataset.operator);
+            });
+          });
+
+          // Action buttons
+          document.querySelectorAll("[data-action]").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              e.preventDefault();
+              const action = e.target.dataset.action;
+              if (action === "clear") this.clearAll();
+              if (action === "delete") this.delete();
+              if (action === "equals") this.calculate();
+            });
+          });
+        }
+
+        onNumberClick(num) {
+          if (this.shouldResetDisplay) {
+            this.currentInput = num === "." ? "0." : num;
+            this.shouldResetDisplay = false;
+          } else {
+            if (num === ".") {
+              if (!this.currentInput.includes(".")) {
+                this.currentInput += num;
+              }
+            } else {
+              this.currentInput =
+                this.currentInput === "0" ? num : this.currentInput + num;
+            }
+          }
+          this.updateDisplay();
+        }
+
+        onOperatorClick(op) {
+          if (this.operator !== null && !this.shouldResetDisplay) {
+            this.calculate();
+          }
+          this.previousValue = parseFloat(this.currentInput);
+          this.operator = op;
+          this.shouldResetDisplay = true;
+        }
+
+        calculate() {
+          if (this.operator === null) return;
+
+          const currentValue = parseFloat(this.currentInput);
+          let result;
+
+          const operatorSymbol =
+            this.operator === "*"
+              ? "×"
+              : this.operator === "/"
+                ? "÷"
+                : this.operator === "-"
+                  ? "−"
+                  : this.operator;
+
+          const expr = `${this.previousValue} ${operatorSymbol} ${currentValue}`;
+
+          switch (this.operator) {
+            case "+":
+              result = this.previousValue + currentValue;
+              break;
+            case "-":
+              result = this.previousValue - currentValue;
+              break;
+            case "*":
+              result = this.previousValue * currentValue;
+              break;
+            case "/":
+              result =
+                currentValue !== 0 ? this.previousValue / currentValue : 0;
+              break;
+            case "%":
+              result = this.previousValue % currentValue;
+              break;
+            default:
+              return;
+          }
+
+          result = Math.round(result * 100000000) / 100000000;
+
+          this.currentInput = String(result);
+          this.operator = null;
+          this.shouldResetDisplay = true;
+
+          // Tampilkan hanya hasil di display, expression di bawah
+          this.display.value = String(result);
+          this.showResult(expr, result);
+        }
+
+        clearAll() {
+          this.currentInput = "0";
+          this.operator = null;
+          this.previousValue = null;
+          this.shouldResetDisplay = false;
+          this.resultBox.style.display = "none";
+          this.updateDisplay();
+        }
+
+        delete() {
+          if (this.currentInput.length > 1) {
+            this.currentInput = this.currentInput.slice(0, -1);
+          } else {
+            this.currentInput = "0";
+          }
+          this.updateDisplay();
+        }
+
+        updateDisplay() {
+          if (
+            this.operator &&
+            this.previousValue !== null &&
+            !this.shouldResetDisplay
+          ) {
+            // Tampilkan expression saat operator aktif
+            const operatorSymbol =
+              this.operator === "*"
+                ? "×"
+                : this.operator === "/"
+                  ? "÷"
+                  : this.operator === "-"
+                    ? "−"
+                    : this.operator;
+            this.display.value = `${this.previousValue} ${operatorSymbol} ${this.currentInput}`;
+          } else if (this.operator && this.previousValue !== null) {
+            // Jika baru klik operator, tampilkan operator symbol
+            const operatorSymbol =
+              this.operator === "*"
+                ? "×"
+                : this.operator === "/"
+                  ? "÷"
+                  : this.operator === "-"
+                    ? "−"
+                    : this.operator;
+            this.display.value = `${this.previousValue} ${operatorSymbol}`;
+          } else {
+            // Tampilkan input saat normal
+            this.display.value = this.currentInput;
+          }
+        }
+
+        showResult(expr, result) {
+          this.exprSpan.textContent = expr;
+          this.resultSpan.textContent = result;
+          this.resultBox.style.display = "block";
+        }
+      }
+
+      // Initialize calculator when page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        new BasicCalculator();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>Test JavaScript</h1>
+    <button onclick="test()">Test Click</button>
+    
+    <script>
+        function test() {
+            console.log('Test clicked');
+            alert('Test works!');
+            
+            // Test auth manager
+            if (window.authManager) {
+                console.log('AuthManager exists');
+                console.log('Token:', window.authManager.getToken());
+            } else {
+                console.log('AuthManager NOT found');
+            }
+        }
+        
+        console.log('Test page loaded');
+    </script>
+    
+    <script src="js/auth.js"></script>
+</body>
+</html>

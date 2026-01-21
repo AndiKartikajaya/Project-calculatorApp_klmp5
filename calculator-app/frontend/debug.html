@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug - MathHub Calculator</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+        button { margin: 5px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>MathHub Calculator Debug</h1>
+    
+    <div class="test">
+        <h3>Test 1: Script Loading</h3>
+        <button onclick="testScripts()">Check Scripts</button>
+        <div id="scriptResult"></div>
+    </div>
+    
+    <div class="test">
+        <h3>Test 2: Authentication</h3>
+        <button onclick="testAuth()">Check Auth</button>
+        <div id="authResult"></div>
+    </div>
+    
+    <div class="test">
+        <h3>Test 3: Backend Connection</h3>
+        <button onclick="testBackend()">Test API</button>
+        <div id="apiResult"></div>
+    </div>
+    
+    <div class="test">
+        <h3>Test 4: Calculator Initialization</h3>
+        <button onclick="testCalculator()">Test Calculator</button>
+        <div id="calcResult"></div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/calculator.js"></script>
+    
+    <script>
+        function testScripts() {
+            const result = document.getElementById('scriptResult');
+            const tests = [
+                { name: 'AuthManager class', check: () => typeof AuthManager !== 'undefined' },
+                { name: 'Calculator class', check: () => typeof Calculator !== 'undefined' },
+                { name: 'authManager global', check: () => !!window.authManager },
+                { name: 'calculator global', check: () => !!window.calculator }
+            ];
+            
+            let html = '<ul>';
+            tests.forEach(test => {
+                const passed = test.check();
+                html += `<li>${test.name}: <strong>${passed ? '✓' : '✗'}</strong></li>`;
+            });
+            html += '</ul>';
+            
+            result.innerHTML = html;
+            result.className = tests.every(t => t.check()) ? 'success' : 'error';
+        }
+        
+        function testAuth() {
+            const result = document.getElementById('authResult');
+            const token = localStorage.getItem('mathhub_token');
+            const user = localStorage.getItem('mathhub_user');
+            
+            let html = '<ul>';
+            html += `<li>Token: ${token ? 'Exists (' + token.substring(0, 20) + '...)' : 'None'}</li>`;
+            if (user) {
+                const userObj = JSON.parse(user);
+                html += `<li>User: ${userObj.username} (${userObj.email})</li>`;
+            } else {
+                html += '<li>User: Not logged in</li>';
+            }
+            html += '</ul>';
+            
+            result.innerHTML = html;
+            result.className = token ? 'success' : 'error';
+        }
+        
+        async function testBackend() {
+            const result = document.getElementById('apiResult');
+            result.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('http://localhost:8000/');
+                const data = await response.json();
+                result.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                result.className = 'success';
+            } catch (error) {
+                result.innerHTML = `Error: ${error.message}<br>Make sure backend is running at http://localhost:8000`;
+                result.className = 'error';
+            }
+        }
+        
+        function testCalculator() {
+            const result = document.getElementById('calcResult');
+            
+            try {
+                if (!window.authManager) {
+                    window.authManager = new AuthManager();
+                }
+                
+                if (!window.calculator) {
+                    window.calculator = new Calculator();
+                    result.innerHTML = 'Calculator created successfully!';
+                    result.className = 'success';
+                } else {
+                    result.innerHTML = 'Calculator already exists';
+                    result.className = 'success';
+                }
+            } catch (error) {
+                result.innerHTML = `Error: ${error.message}<br>${error.stack}`;
+                result.className = 'error';
+            }
+        }
+        
+        // Auto-run tests
+        window.addEventListener('load', function() {
+            setTimeout(testScripts, 500);
+            setTimeout(testAuth, 600);
+            setTimeout(testBackend, 700);
+        });
+    </script>
+</body>
+</html>

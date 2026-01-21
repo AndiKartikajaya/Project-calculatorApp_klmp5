@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator - Home</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="logo">
+          <h1>🧮 Calculator Online Kelompok 5</h1>
+        </div>
+        <div class="user-info">
+          <span id="usernameDisplay"></span>
+          <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+        </div>
+      </header>
+
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-target="basic">
+          Basic Calculator
+        </button>
+        <button class="nav-tab" data-target="advanced">
+          Advanced Calculator
+        </button>
+        <button class="nav-tab" data-target="conversion">Unit Converter</button>
+        <button class="nav-tab" data-target="finance">
+          Financial Calculator
+        </button>
+        <button
+          class="nav-tab"
+          data-target="history"
+          onclick="window.location.href = 'history.html'"
+        >
+          History 📜
+        </button>
+      </div>
+
+      <div class="calculator-container">
+        <!-- Basic Calculator -->
+        <div id="basicCalculator" class="calculator-section">
+          <h2 class="section-title">Basic Calculator</h2>
+          <div class="basic-calc-widget">
+            <!-- Display Screen -->
+            <div class="calc-screen">
+              <input
+                type="text"
+                id="calcDisplay"
+                class="calc-display-screen"
+                value="0"
+                readonly
+              />
+            </div>
+
+            <!-- Button Grid -->
+            <div class="calc-grid">
+              <!-- Row 1 -->
+              <button
+                class="calc-button calc-button-clear"
+                onclick="basicCalcClear()"
+              >
+                C
+              </button>
+              <button
+                class="calc-button calc-button-clear"
+                onclick="basicCalcDelete()"
+              >
+                ⌫
+              </button>
+              <button
+                class="calc-button calc-button-operator"
+                onclick="basicCalcOperator('/')"
+              >
+                /
+              </button>
+              <button
+                class="calc-button calc-button-operator"
+                onclick="basicCalcOperator('*')"
+              >
+                ×
+              </button>
+
+              <!-- Row 2 -->
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('7')"
+              >
+                7
+              </button>
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('8')"
+              >
+                8
+              </button>
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('9')"
+              >
+                9
+              </button>
+              <button
+                class="calc-button calc-button-operator"
+                onclick="basicCalcOperator('-')"
+              >
+                −
+              </button>
+
+              <!-- Row 3 -->
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('4')"
+              >
+                4
+              </button>
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('5')"
+              >
+                5
+              </button>
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('6')"
+              >
+                6
+              </button>
+              <button
+                class="calc-button calc-button-operator"
+                onclick="basicCalcOperator('+')"
+              >
+                +
+              </button>
+
+              <!-- Row 4 -->
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('1')"
+              >
+                1
+              </button>
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('2')"
+              >
+                2
+              </button>
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('3')"
+              >
+                3
+              </button>
+              <button
+                class="calc-button calc-button-operator"
+                onclick="basicCalcOperator('%')"
+              >
+                %
+              </button>
+
+              <!-- Row 5 -->
+              <button
+                class="calc-button calc-button-number calc-button-zero"
+                onclick="basicCalcNumber('0')"
+              >
+                0
+              </button>
+              <button
+                class="calc-button calc-button-number"
+                onclick="basicCalcNumber('.')"
+              >
+                .
+              </button>
+              <button
+                class="calc-button calc-button-equals"
+                onclick="basicCalcEquals()"
+              >
+                =
+              </button>
+            </div>
+          </div>
+
+          <!-- Result Display -->
+          <div
+            class="calc-result-display"
+            id="basicCalcResult"
+            style="display: none"
+          >
+            <p>Expression: <span id="basicCalcExpr"></span></p>
+            <p>Result: <strong id="basicCalcResultVal"></strong></p>
+          </div>
+        </div>
+
+        <!-- Advanced Calculator -->
+        <div
+          id="advancedCalculator"
+          class="calculator-section"
+          style="display: none"
+        >
+          <h2 class="section-title">Advanced Calculator</h2>
+          <form
+            id="advancedCalculatorForm"
+            onsubmit="calculateAdvanced(event)"
+            novalidate
+          >
+            <div class="input-group">
+              <label for="advOperation">Operation</label>
+              <select
+                id="advOperation"
+                class="form-input"
+                onchange="updateAdvancedFields()"
+              >
+                <option value="square">Square (x²)</option>
+                <option value="sqrt">Square Root (√x)</option>
+                <option value="cube">Cube (x³)</option>
+                <option value="power">Power (x^y)</option>
+                <option value="sin">Sine</option>
+                <option value="cos">Cosine</option>
+                <option value="tan">Tangent</option>
+                <option value="log">Logarithm (log)</option>
+                <option value="ln">Natural Log (ln)</option>
+                <option value="factorial">Factorial (n!)</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="advValue">Value</label>
+              <input
+                type="number"
+                id="advValue"
+                class="form-input"
+                step="any"
+              />
+            </div>
+
+            <div class="input-group" id="advPowerGroup" style="display: none">
+              <label for="advPower">Exponent (y)</label>
+              <input
+                type="number"
+                id="advPower"
+                class="form-input"
+                step="any"
+              />
+            </div>
+
+            <div class="input-group" id="angleUnitGroup" style="display: none">
+              <label>Angle Unit</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input
+                    type="radio"
+                    name="angleUnit"
+                    value="degrees"
+                    checked
+                  />
+                  Degrees
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="angleUnit" value="radians" />
+                  Radians
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Calculate
+            </button>
+          </form>
+
+          <div
+            class="calc-result-display"
+            id="advancedResult"
+            style="display: none"
+          >
+            <p>Operation: <span id="advOperationName"></span></p>
+            <p>Result: <strong id="advResultVal"></strong></p>
+          </div>
+        </div>
+
+        <!-- Unit Converter -->
+        <div
+          id="conversionCalculator"
+          class="calculator-section"
+          style="display: none"
+        >
+          <h2 class="section-title">Unit Converter</h2>
+          <form id="conversionForm" onsubmit="convertUnits(event)" novalidate>
+            <div class="input-group">
+              <label for="conversionType">Conversion Type</label>
+              <select
+                id="conversionType"
+                class="form-input"
+                onchange="updateConversionUnits()"
+                required
+              >
+                <option value="length">Length</option>
+                <option value="weight">Weight</option>
+                <option value="temperature">Temperature</option>
+                <option value="volume">Volume</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="convValue">Value</label>
+              <input
+                type="number"
+                id="convValue"
+                class="form-input"
+                step="any"
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="fromUnit">From Unit</label>
+              <select id="fromUnit" class="form-input">
+                <!-- Populated by updateConversionUnits() -->
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="toUnit">To Unit</label>
+              <select id="toUnit" class="form-input">
+                <!-- Populated by updateConversionUnits() -->
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Convert
+            </button>
+          </form>
+
+          <div
+            class="calc-result-display"
+            id="conversionResult"
+            style="display: none"
+          >
+            <p>Conversion: <span id="convExpr"></span></p>
+            <p>Result: <strong id="convResultVal"></strong></p>
+          </div>
+        </div>
+
+        <!-- Financial Calculator -->
+        <div
+          id="financeCalculator"
+          class="calculator-section"
+          style="display: none"
+        >
+          <h2 class="section-title">Financial Calculator</h2>
+          <form id="financeForm" onsubmit="calculateFinance(event)">
+            <div class="input-group">
+              <label for="financeOperation">Operation</label>
+              <select id="financeOperation" class="form-input" required>
+                <option value="simple_interest">Simple Interest</option>
+                <option value="compound_interest">Compound Interest</option>
+                <option value="loan_payment">Loan Payment</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="principal">Principal Amount ($)</label>
+              <input
+                type="number"
+                id="principal"
+                class="form-input"
+                step="0.01"
+                min="0.01"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="rate">Interest Rate (%) per year</label>
+              <input
+                type="number"
+                id="rate"
+                class="form-input"
+                step="0.01"
+                min="0"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="time">Time Period (years)</label>
+              <input
+                type="number"
+                id="time"
+                class="form-input"
+                step="0.01"
+                min="0.01"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Calculate
+            </button>
+          </form>
+
+          <div
+            class="calc-result-display"
+            id="financeResult"
+            style="display: none"
+          >
+            <p>Calculation: <span id="financeExpr"></span></p>
+            <p>Result: <strong id="financeResultVal"></strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/calculator.js"></script>
+
+    <!-- Basic Calculator Functions -->
+    <script>
+      // Simple calculator state
+      let calcState = {
+        display: "0",
+        currentInput: "0",
+        operator: null,
+        previousValue: null,
+        shouldReset: false,
+      };
+
+      function updateCalcDisplay() {
+        const display = document.getElementById("calcDisplay");
+        if (display) {
+          display.value = calcState.display;
+        }
+      }
+
+      function basicCalcNumber(num) {
+        console.log("Number clicked:", num);
+        if (calcState.shouldReset) {
+          calcState.currentInput = num === "." ? "0." : num;
+          calcState.shouldReset = false;
+        } else {
+          if (num === ".") {
+            if (!calcState.currentInput.includes(".")) {
+              calcState.currentInput += num;
+            }
+          } else {
+            calcState.currentInput =
+              calcState.currentInput === "0"
+                ? num
+                : calcState.currentInput + num;
+          }
+        }
+
+        if (calcState.operator && calcState.previousValue !== null) {
+          const opSymbol =
+            calcState.operator === "*"
+              ? "×"
+              : calcState.operator === "/"
+                ? "÷"
+                : calcState.operator === "-"
+                  ? "−"
+                  : calcState.operator;
+          calcState.display = `${calcState.previousValue} ${opSymbol} ${calcState.currentInput}`;
+        } else {
+          calcState.display = calcState.currentInput;
+        }
+        updateCalcDisplay();
+      }
+
+      function basicCalcOperator(op) {
+        console.log("Operator clicked:", op);
+        if (calcState.operator !== null && !calcState.shouldReset) {
+          basicCalcEquals();
+        }
+        calcState.previousValue = parseFloat(calcState.currentInput);
+        calcState.operator = op;
+        calcState.shouldReset = true;
+
+        const opSymbol =
+          op === "*" ? "×" : op === "/" ? "÷" : op === "-" ? "−" : op;
+        calcState.display = `${calcState.previousValue} ${opSymbol}`;
+        updateCalcDisplay();
+      }
+
+      function basicCalcEquals() {
+        console.log("Equals clicked");
+        if (calcState.operator === null) return;
+
+        const curr = parseFloat(calcState.currentInput);
+        let result;
+
+        // Store operator before it gets cleared
+        const operator = calcState.operator;
+
+        switch (operator) {
+          case "+":
+            result = calcState.previousValue + curr;
+            break;
+          case "-":
+            result = calcState.previousValue - curr;
+            break;
+          case "*":
+            result = calcState.previousValue * curr;
+            break;
+          case "/":
+            result = curr !== 0 ? calcState.previousValue / curr : 0;
+            break;
+          case "%":
+            result = calcState.previousValue % curr;
+            break;
+          default:
+            return;
+        }
+
+        result = Math.round(result * 100000000) / 100000000;
+
+        const opSymbol =
+          operator === "*"
+            ? "×"
+            : operator === "/"
+              ? "÷"
+              : operator === "-"
+                ? "−"
+                : operator;
+        const expr = `${calcState.previousValue} ${opSymbol} ${curr}`;
+
+        calcState.display = String(result);
+        calcState.currentInput = String(result);
+        calcState.operator = null;
+        calcState.shouldReset = true;
+
+        updateCalcDisplay();
+
+        // Show result
+        const resultBox = document.getElementById("basicCalcResult");
+        if (resultBox) {
+          document.getElementById("basicCalcExpr").textContent = expr;
+          document.getElementById("basicCalcResultVal").textContent = result;
+          resultBox.style.display = "block";
+        }
+
+        // Save to database with proper operation data
+        const operationMap = {
+          "+": "addition",
+          "-": "subtraction",
+          "*": "multiplication",
+          "/": "division",
+          "%": "percentage",
+        };
+
+        const operationData = {
+          num1: calcState.previousValue,
+          num2: curr,
+          operation: operationMap[operator],
+        };
+
+        console.log("Operation data:", operationData);
+        saveCalculationToDatabase(expr, result, "basic", operationData);
+      }
+
+      async function saveCalculationToDatabase(
+        expression,
+        result,
+        type = "basic",
+        operationData = null,
+      ) {
+        try {
+          const token = window.authManager.getToken();
+          console.log("Token check:", {
+            hasToken: !!token,
+            tokenLength: token ? token.length : 0,
+            tokenPrefix: token ? token.substring(0, 20) + "..." : "NO TOKEN",
+          });
+
+          if (!token) {
+            console.error("❌ NO TOKEN FOUND - User not authenticated!");
+            alert("Error: You are not logged in! Please login first.");
+            return;
+          }
+
+          let endpoint = "/api/calculator/basic";
+          let requestBody = {};
+
+          if (type === "basic" && operationData) {
+            // For basic operations: send num1, num2, operation
+            endpoint = "/api/calculator/basic";
+            requestBody = {
+              num1: operationData.num1,
+              num2: operationData.num2,
+              operation: operationData.operation,
+            };
+          } else if (type === "advanced" && operationData) {
+            endpoint = "/api/calculator/advanced";
+            requestBody = operationData;
+          } else if (type === "conversion" && operationData) {
+            endpoint = "/api/calculator/convert";
+            requestBody = operationData;
+          } else if (type === "finance" && operationData) {
+            endpoint = "/api/calculator/finance";
+            requestBody = operationData;
+          } else {
+            // Fallback: if no operationData provided, use expression/result (for compatibility)
+            requestBody = {
+              expression: expression,
+              result: result,
+            };
+          }
+
+          console.log("Sending to " + endpoint + ":", requestBody);
+
+          const response = await fetch("http://localhost:8000" + endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(requestBody),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log(
+              "✓ [" + type.toUpperCase() + "] Calculation saved:",
+              data,
+            );
+          } else {
+            console.warn("Failed to save calculation:", response.status);
+            const errorText = await response.text();
+            console.error("Error details:", errorText);
+          }
+        } catch (error) {
+          console.error("Error saving calculation:", error);
+        }
+      }
+
+      function basicCalcClear() {
+        console.log("Clear clicked");
+        calcState = {
+          display: "0",
+          currentInput: "0",
+          operator: null,
+          previousValue: null,
+          shouldReset: false,
+        };
+        updateCalcDisplay();
+        const resultBox = document.getElementById("basicCalcResult");
+        if (resultBox) resultBox.style.display = "none";
+      }
+
+      function basicCalcDelete() {
+        console.log("Delete clicked");
+        if (calcState.currentInput.length > 1) {
+          calcState.currentInput = calcState.currentInput.slice(0, -1);
+        } else {
+          calcState.currentInput = "0";
+        }
+
+        if (calcState.operator && calcState.previousValue !== null) {
+          const opSymbol =
+            calcState.operator === "*"
+              ? "×"
+              : calcState.operator === "/"
+                ? "÷"
+                : calcState.operator === "-"
+                  ? "−"
+                  : calcState.operator;
+          calcState.display = `${calcState.previousValue} ${opSymbol} ${calcState.currentInput}`;
+        } else {
+          calcState.display = calcState.currentInput;
+        }
+        updateCalcDisplay();
+      }
+
+      // ===== ADVANCED CALCULATOR =====
+      function updateAdvancedFields() {
+        console.log("updateAdvancedFields called");
+        const op = document.getElementById("advOperation").value;
+        const powerGroup = document.getElementById("advPowerGroup");
+        const angleGroup = document.getElementById("angleUnitGroup");
+
+        // Show power input for power operation
+        if (op === "power") {
+          powerGroup.style.display = "block";
+        } else {
+          powerGroup.style.display = "none";
+        }
+
+        // Show angle unit for trig functions
+        if (["sin", "cos", "tan"].includes(op)) {
+          angleGroup.style.display = "block";
+        } else {
+          angleGroup.style.display = "none";
+        }
+      }
+
+      function calculateAdvanced(e) {
+        e.preventDefault();
+        console.log("=== calculateAdvanced called ===");
+
+        const operation = document.getElementById("advOperation").value;
+        const value = parseFloat(document.getElementById("advValue").value);
+
+        console.log("Operation:", operation, "Value:", value);
+
+        let result;
+        let operationName;
+
+        try {
+          switch (operation) {
+            case "square":
+              result = value * value;
+              operationName = `${value}²`;
+              break;
+            case "sqrt":
+              result = Math.sqrt(value);
+              operationName = `√${value}`;
+              break;
+            case "cube":
+              result = value * value * value;
+              operationName = `${value}³`;
+              break;
+            case "power":
+              const exponent = parseFloat(
+                document.getElementById("advPower").value,
+              );
+              result = Math.pow(value, exponent);
+              operationName = `${value}^${exponent}`;
+              break;
+            case "sin":
+              const angleUnit = document.querySelector(
+                'input[name="angleUnit"]:checked',
+              ).value;
+              const radSin =
+                angleUnit === "degrees" ? (value * Math.PI) / 180 : value;
+              result = Math.sin(radSin);
+              operationName = `sin(${value}°)`;
+              break;
+            case "cos":
+              const angleUnit2 = document.querySelector(
+                'input[name="angleUnit"]:checked',
+              ).value;
+              const radCos =
+                angleUnit2 === "degrees" ? (value * Math.PI) / 180 : value;
+              result = Math.cos(radCos);
+              operationName = `cos(${value}°)`;
+              break;
+            case "tan":
+              const angleUnit3 = document.querySelector(
+                'input[name="angleUnit"]:checked',
+              ).value;
+              const radTan =
+                angleUnit3 === "degrees" ? (value * Math.PI) / 180 : value;
+              result = Math.tan(radTan);
+              operationName = `tan(${value}°)`;
+              break;
+            case "log":
+              result = Math.log10(value);
+              operationName = `log(${value})`;
+              break;
+            case "ln":
+              result = Math.log(value);
+              operationName = `ln(${value})`;
+              break;
+            case "factorial":
+              result = factorial(Math.floor(value));
+              operationName = `${value}!`;
+              break;
+            default:
+              alert("Unknown operation");
+              return;
+          }
+
+          result = Math.round(result * 100000000) / 100000000;
+
+          console.log("Result:", result, "Operation Name:", operationName);
+
+          // Display result
+          document.getElementById("advOperationName").textContent =
+            operationName;
+          document.getElementById("advResultVal").textContent = result;
+          document.getElementById("advancedResult").style.display = "block";
+
+          // Save to database with proper operation data
+          const advOperationMap = {
+            square: "square",
+            sqrt: "square_root",
+            cube: "power",
+            power: "power",
+            sin: "sin",
+            cos: "cos",
+            tan: "tan",
+            log: "log",
+            ln: "ln",
+            factorial: "power",
+          };
+
+          const angleUnit =
+            document.querySelector('input[name="angleUnit"]:checked')?.value ||
+            "radians";
+          const advOperationData = {
+            value: parseFloat(document.getElementById("advValue").value),
+            operation: advOperationMap[operation] || operation,
+            angle_unit: angleUnit,
+          };
+
+          saveCalculationToDatabase(
+            operationName,
+            result,
+            "advanced",
+            advOperationData,
+          );
+        } catch (error) {
+          console.error("Error in calculateAdvanced:", error);
+          alert("Error: " + error.message);
+        }
+      }
+
+      function factorial(n) {
+        if (n < 0)
+          throw new Error("Factorial not defined for negative numbers");
+        if (n === 0 || n === 1) return 1;
+        let result = 1;
+        for (let i = 2; i <= n; i++) {
+          result *= i;
+        }
+        return result;
+      }
+
+      // ===== UNIT CONVERTER =====
+      const conversionUnits = {
+        length: {
+          name: "Length",
+          units: [
+            "meter",
+            "kilometer",
+            "centimeter",
+            "millimeter",
+            "mile",
+            "yard",
+            "foot",
+            "inch",
+          ],
+          toMeter: {
+            meter: 1,
+            kilometer: 1000,
+            centimeter: 0.01,
+            millimeter: 0.001,
+            mile: 1609.34,
+            yard: 0.9144,
+            foot: 0.3048,
+            inch: 0.0254,
+          },
+        },
+        weight: {
+          name: "Weight",
+          units: ["kilogram", "gram", "milligram", "pound", "ounce", "ton"],
+          toKg: {
+            kilogram: 1,
+            gram: 0.001,
+            milligram: 0.000001,
+            pound: 0.453592,
+            ounce: 0.0283495,
+            ton: 1000,
+          },
+        },
+        temperature: {
+          name: "Temperature",
+          units: ["celsius", "fahrenheit", "kelvin"],
+        },
+        volume: {
+          name: "Volume",
+          units: [
+            "liter",
+            "milliliter",
+            "gallon",
+            "quart",
+            "pint",
+            "cup",
+            "tablespoon",
+            "teaspoon",
+          ],
+          toLiter: {
+            liter: 1,
+            milliliter: 0.001,
+            gallon: 3.78541,
+            quart: 0.946353,
+            pint: 0.473176,
+            cup: 0.236588,
+            tablespoon: 0.0147868,
+            teaspoon: 0.00492892,
+          },
+        },
+      };
+
+      function updateConversionUnits() {
+        const type = document.getElementById("conversionType").value;
+        const units = conversionUnits[type].units;
+
+        const fromSelect = document.getElementById("fromUnit");
+        const toSelect = document.getElementById("toUnit");
+
+        fromSelect.innerHTML = "";
+        toSelect.innerHTML = "";
+
+        units.forEach((unit) => {
+          const opt1 = document.createElement("option");
+          opt1.value = unit;
+          opt1.textContent = unit.charAt(0).toUpperCase() + unit.slice(1);
+          fromSelect.appendChild(opt1);
+
+          const opt2 = document.createElement("option");
+          opt2.value = unit;
+          opt2.textContent = unit.charAt(0).toUpperCase() + unit.slice(1);
+          toSelect.appendChild(opt2);
+        });
+
+        if (units.length > 1) {
+          toSelect.value = units[1];
+        }
+      }
+
+      function convertUnits(e) {
+        e.preventDefault();
+        console.log("=== convertUnits called ===");
+
+        const type = document.getElementById("conversionType").value;
+        const value = parseFloat(document.getElementById("convValue").value);
+        const fromUnit = document.getElementById("fromUnit").value;
+        const toUnit = document.getElementById("toUnit").value;
+
+        console.log(
+          "Type:",
+          type,
+          "Value:",
+          value,
+          "From:",
+          fromUnit,
+          "To:",
+          toUnit,
+        );
+
+        let result;
+        let expr;
+
+        try {
+          if (type === "temperature") {
+            if (fromUnit === toUnit) {
+              result = value;
+            } else if (fromUnit === "celsius" && toUnit === "fahrenheit") {
+              result = (value * 9) / 5 + 32;
+            } else if (fromUnit === "celsius" && toUnit === "kelvin") {
+              result = value + 273.15;
+            } else if (fromUnit === "fahrenheit" && toUnit === "celsius") {
+              result = ((value - 32) * 5) / 9;
+            } else if (fromUnit === "fahrenheit" && toUnit === "kelvin") {
+              result = ((value - 32) * 5) / 9 + 273.15;
+            } else if (fromUnit === "kelvin" && toUnit === "celsius") {
+              result = value - 273.15;
+            } else if (fromUnit === "kelvin" && toUnit === "fahrenheit") {
+              result = ((value - 273.15) * 9) / 5 + 32;
+            }
+          } else if (type === "length") {
+            result =
+              (value * conversionUnits.length.toMeter[fromUnit]) /
+              conversionUnits.length.toMeter[toUnit];
+          } else if (type === "weight") {
+            result =
+              (value * conversionUnits.weight.toKg[fromUnit]) /
+              conversionUnits.weight.toKg[toUnit];
+          } else if (type === "volume") {
+            result =
+              (value * conversionUnits.volume.toLiter[fromUnit]) /
+              conversionUnits.volume.toLiter[toUnit];
+          }
+
+          result = Math.round(result * 100000000) / 100000000;
+          expr = `${value} ${fromUnit} = ? ${toUnit}`;
+
+          console.log("Result:", result, "Expression:", expr);
+
+          // Display result
+          document.getElementById("convExpr").textContent = expr;
+          document.getElementById("convResultVal").textContent =
+            result + " " + toUnit;
+          document.getElementById("conversionResult").style.display = "block";
+
+          // Save to database with proper conversion data
+          const conversionData = {
+            value: value,
+            from_unit: fromUnit,
+            to_unit: toUnit,
+            conversion_type: type,
+          };
+
+          saveCalculationToDatabase(expr, result, "conversion", conversionData);
+        } catch (error) {
+          console.error("Error in convertUnits:", error);
+          alert("Error: " + error.message);
+        }
+      }
+
+      // Initialize conversion units on load
+      window.addEventListener("load", function () {
+        updateConversionUnits();
+      });
+
+      // ===== FINANCIAL CALCULATOR =====
+      function calculateFinance(e) {
+        e.preventDefault();
+        console.log("=== calculateFinance called ===");
+
+        const operation = document.getElementById("financeOperation").value;
+        const principal = parseFloat(
+          document.getElementById("principal").value,
+        );
+        const rate = parseFloat(document.getElementById("rate").value);
+        const time = parseFloat(document.getElementById("time").value);
+
+        console.log(
+          "Operation:",
+          operation,
+          "Principal:",
+          principal,
+          "Rate:",
+          rate,
+          "Time:",
+          time,
+        );
+
+        let result;
+        let expr;
+
+        try {
+          if (operation === "simple_interest") {
+            // Simple Interest = P * R * T / 100
+            const interest = (principal * rate * time) / 100;
+            result = principal + interest;
+            expr = `Simple Interest: P=$${principal}, R=${rate}%, T=${time} years`;
+          } else if (operation === "compound_interest") {
+            // Compound Interest = P(1 + r/100)^t
+            result = principal * Math.pow(1 + rate / 100, time);
+            expr = `Compound Interest: P=$${principal}, R=${rate}%, T=${time} years`;
+          } else if (operation === "loan_payment") {
+            // Monthly Payment = P[r(1+r)^n]/[(1+r)^n-1]
+            // where r = monthly rate (annual rate/12/100)
+            // and n = number of months (years*12)
+            const monthlyRate = rate / 100 / 12;
+            const numberOfPayments = time * 12;
+
+            if (monthlyRate === 0) {
+              result = principal / numberOfPayments;
+            } else {
+              result =
+                (principal *
+                  monthlyRate *
+                  Math.pow(1 + monthlyRate, numberOfPayments)) /
+                (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+            }
+            expr = `Monthly Loan Payment: P=$${principal}, R=${rate}%, T=${time} years`;
+          }
+
+          result = Math.round(result * 100) / 100;
+
+          console.log("Result:", result, "Expression:", expr);
+
+          // Display result
+          document.getElementById("financeExpr").textContent = expr;
+          document.getElementById("financeResultVal").textContent =
+            "$" + result.toFixed(2);
+          document.getElementById("financeResult").style.display = "block";
+
+          // Save to database with proper finance data
+          const financeData = {
+            principal: principal,
+            rate: rate,
+            time: time,
+            operation: operation,
+          };
+
+          console.log("Finance data:", financeData);
+          saveCalculationToDatabase(expr, result, "finance", financeData);
+        } catch (error) {
+          console.error("Error in calculateFinance:", error);
+          alert("Error: " + error.message);
+        }
+      }
+    </script>
+
+    <!-- Page Initialization -->
+    <script>
+      // Initialize after page loads
+      window.addEventListener("load", function () {
+        console.log("=== Page Loaded ===");
+
+        // Ensure authManager exists
+        if (!window.authManager) {
+          window.authManager = new AuthManager();
+        }
+
+        // Check auth
+        const token = window.authManager.getToken();
+        if (!token) {
+          window.location.href = "auth.html";
+          return;
+        }
+
+        // Initialize main Calculator
+        if (window.Calculator) {
+          window.calculator = new Calculator();
+          console.log("✓ Calculator initialized");
+        }
+
+        // Update username
+        const user = window.authManager.getUser();
+        if (user) {
+          const span = document.getElementById("usernameDisplay");
+          if (span) span.textContent = user.username;
+        }
+
+        console.log("✓ Page fully initialized");
+      });
+    </script>
+  </body>
+</html>
