@@ -447,7 +447,7 @@ Serving HTTP on 127.0.0.1 port 8080
 ### Step 7: Buka Aplikasi di Browser
 
 ```
-http://127.0.0.1:8080/index.html
+http://127.0.0.1:8080/
 ```
 
 ## 🎮 Cara Menggunakan Aplikasi
