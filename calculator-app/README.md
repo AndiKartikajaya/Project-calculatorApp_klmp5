@@ -6,10 +6,10 @@
 
 ## 👥 Daftar Anggota
 
-| No  | Nama                    | NIM         | Username GitHub | Peran/Tugas          |
-| --- | ----------------------- | ----------- | --------------- | -------------------- |
-| 1   | Komang Andi Kartikajaya | [240030339] | AndiKartikajaya | Full Stack Developer |
-| 2   | Komang Andi Kartikajaya | [240030339] | AndiKartikajaya | Testing & Debugging  |
+| No  | Nama                         | NIM         | Username GitHub | Peran/Tugas          |
+| --- | ---------------------------- | ----------- | --------------- | -------------------- |
+| 1   | Komang Andi Kartikajaya      | [240030339] | AndiKartikajaya | Full Stack Developer |
+| 2   | Ni Wayan Intan Trisna Rahayu | [250030625] | AndiKartikajaya | Testing & Debugging  |
 
 **Peran/Tugas:**
 
