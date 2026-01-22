@@ -10,6 +10,8 @@
 | --- | ---------------------------- | ----------- | --------------- | -------------------- |
 | 1   | Komang Andi Kartikajaya      | [240030339] | AndiKartikajaya | Full Stack Developer |
 | 2   | Ni Wayan Intan Trisna Rahayu | [250030625] | AndiKartikajaya | Testing & Debugging  |
+| 3   | I Kadek Dawista Lahran       | [240030036] | AndiKartikajaya | Debugging            |
+| 4   | Serdi Leni Debora bantaika   | [220030332] | AndiKartikajaya | Tidak ada            |
 
 **Peran/Tugas:**
 
